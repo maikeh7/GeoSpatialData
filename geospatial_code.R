@@ -1,6 +1,7 @@
 library(ggmap)
 #you will need your own Google key!
-register_google(key = "AIzaSyBHmsVYJ51gI_fv5cR_Q4TWFDUYqXBm7-E")
+register_google(key = "XXXXXXXXXXXXX")
+
 
 boise = c(lon = -116.2023, lat = 43.615)
 
@@ -66,3 +67,21 @@ extent(-74.758, -71.556, 43.39, 45.861)
 new_extent = c(-75, -72, 37, 42)
 mypop_crop = crop(mypop, new_extent)
 spplot(mypop_crop)
+
+
+library(fields)
+data(ozone2)
+out<- rdist.earth ( ozone2$lon.lat)
+head(out)
+#out is a 153X153 distance matrix
+upper<-  col(out)> row( out)
+upper
+# histogram of all pairwise distances. 
+hist( out[upper])
+
+#get pairwise distances between first 10 and second 10 lon/lat points
+x1 = ozone2$lon.lat[1:10,]
+class(ozone2$lon.lat)
+x2 = ozone2$lon.lat[11:20,]
+dists = rdist.earth.vec(x1, x2)
+print(dists)
